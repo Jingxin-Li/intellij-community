@@ -35,6 +35,10 @@ public final class DuckyProjectService {
         DuckyJsonIndexManager jsonIndexManager = new DuckyJsonIndexManager(project);
         jsonIndexManager.writeIndex(hardwareId, files);
         
+        // Compress and upload files
+        DuckyUploadManager uploadManager = new DuckyUploadManager(project);
+        uploadManager.compressAndUpload(files);
+        
         // Further implementation will be added in subsequent steps
     }
 }
