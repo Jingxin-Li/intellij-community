@@ -6,9 +6,10 @@ import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import com.intellij.openapi.Disposable;
 
 @Service(Service.Level.PROJECT)
-public final class DuckyProjectService {
+public final class DuckyProjectService implements com.intellij.openapi.Disposable {
     private static final Logger LOG = Logger.getInstance(DuckyProjectService.class);
     private final @NotNull Project project;
 
@@ -18,6 +19,7 @@ public final class DuckyProjectService {
 
     private DuckyFileIndexManager fileIndexManager;
     private String hardwareId;
+    private DuckyIncrementalUpdateManager incrementalUpdateManager;
 
     public void initialize() {
         LOG.info("Initializing DuckyProjectService for project: " + project.getName());
@@ -39,6 +41,15 @@ public final class DuckyProjectService {
         DuckyUploadManager uploadManager = new DuckyUploadManager(project);
         uploadManager.compressAndUpload(files);
         
-        // Further implementation will be added in subsequent steps
+        // Start incremental updates
+        incrementalUpdateManager = new DuckyIncrementalUpdateManager(project, hardwareId);
+        incrementalUpdateManager.startIncrementalUpdates();
+    }
+
+    @Override
+    public void dispose() {
+        if (incrementalUpdateManager != null) {
+            incrementalUpdateManager.dispose();
+        }
     }
 }
