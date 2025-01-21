@@ -1,0 +1,13 @@
+<idea-plugin>
+    <id>com.example.ducky</id>
+    <name>Ducky File Sync</name>
+    <vendor>Example</vendor>
+    <description>Synchronizes local files with remote Ducky storage</description>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <startupActivity implementation="com.example.ducky.DuckyStartupActivity"/>
+        <projectService serviceImplementation="com.example.ducky.DuckyProjectService"/>
+    </extensions>
+</idea-plugin>
