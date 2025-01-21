@@ -31,6 +31,10 @@ public final class DuckyProjectService {
         List<DuckyFileIndexManager.FileInfo> files = fileIndexManager.indexProjectFiles();
         LOG.info("Indexed " + files.size() + " files in project");
         
+        // Write index file
+        DuckyJsonIndexManager jsonIndexManager = new DuckyJsonIndexManager(project);
+        jsonIndexManager.writeIndex(hardwareId, files);
+        
         // Further implementation will be added in subsequent steps
     }
 }
