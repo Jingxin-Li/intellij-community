@@ -20,6 +20,7 @@ public final class DuckyProjectService implements com.intellij.openapi.Disposabl
     private DuckyFileIndexManager fileIndexManager;
     private String hardwareId;
     private DuckyIncrementalUpdateManager incrementalUpdateManager;
+    private DuckyMockCompletionService completionService;
 
     public void initialize() {
         LOG.info("Initializing DuckyProjectService for project: " + project.getName());
@@ -44,6 +45,22 @@ public final class DuckyProjectService implements com.intellij.openapi.Disposabl
         // Start incremental updates
         incrementalUpdateManager = new DuckyIncrementalUpdateManager(project, hardwareId);
         incrementalUpdateManager.startIncrementalUpdates();
+
+        // Initialize completion service
+        completionService = new DuckyMockCompletionService(project);
+        LOG.info("Mock completion service initialized");
+    }
+
+    public List<String> getCodeCompletionSuggestions(@NotNull String context) {
+        return completionService.getCodeCompletionSuggestions(context, hardwareId);
+    }
+
+    public List<String> getProgrammingTaskSuggestions(@NotNull String taskDescription) {
+        return completionService.getProgrammingTaskSuggestions(taskDescription, hardwareId);
+    }
+
+    public String getRelevantContext(@NotNull String query) {
+        return completionService.getRelevantContext(query, hardwareId);
     }
 
     @Override
