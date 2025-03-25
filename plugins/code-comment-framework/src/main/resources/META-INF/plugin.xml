@@ -1,0 +1,29 @@
+<idea-plugin>
+  <id>com.intellij.plugins.code-comment-framework</id>
+  <name>Code Comment Framework</name>
+  <vendor>JetBrains</vendor>
+  <description>
+    <![CDATA[
+      A framework for attaching comment boxes to code fragments with support for code suggestions.
+    ]]>
+  </description>
+
+  <depends>com.intellij.modules.platform</depends>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <applicationService serviceImplementation="com.intellij.plugins.codeComment.settings.CodeCommentSettings"/>
+    <projectService serviceImplementation="com.intellij.plugins.codeComment.CodeCommentManager"/>
+    <editorFactoryListener implementation="com.intellij.plugins.codeComment.editor.CodeCommentEditorFactoryListener"/>
+    <postStartupActivity implementation="com.intellij.plugins.codeComment.sample.SampleCommentGenerator"/>
+  </extensions>
+
+  <actions>
+    <action id="CodeComment.AddComment" 
+            class="com.intellij.plugins.codeComment.actions.AddCodeCommentAction" 
+            text="Add Code Comment" 
+            description="Add a comment to selected code">
+      <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt SEMICOLON"/>
+    </action>
+  </actions>
+</idea-plugin>
